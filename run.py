@@ -376,8 +376,8 @@ if __name__ == "__main__":
     args.max_q_backup = hyperparameters[args.env_name]["max_q_backup"]
     args.reward_tune = hyperparameters[args.env_name]["reward_tune"]
     args.gn = hyperparameters[args.env_name]["gn"]
-    if args.eval_freq is None:
-        args.eval_freq = hyperparameters[args.env_name]["eval_freq"]
+    args.eval_freq = hyperparameters[args.env_name]["eval_freq"]
+    
     if args.lambda_min is None:
         args.lambda_min = hyperparameters[args.env_name]["lambda_min"]
     if args.target_kl is None:
