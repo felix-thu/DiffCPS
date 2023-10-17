@@ -23,7 +23,7 @@ hyperparameters = {
         "num_epochs": 2000,
         "freq": 2,
         "lambda_min": 0,
-        "traget_kl": 0.06,
+        "target_kl": 0.06,
         "gn": 9.0,
     },
     "hopper-medium-v2": {
@@ -34,7 +34,7 @@ hyperparameters = {
         "eval_freq": 50,
         "num_epochs": 2000,
         "lambda_min": 0,
-        "traget_kl": 0.05,
+        "target_kl": 0.05,
         "gn": 9.0,
         "freq": 2,
     },
@@ -46,7 +46,7 @@ hyperparameters = {
         "eval_freq": 50,
         "num_epochs": 2000,
         "lambda_min": 0,
-        "traget_kl": 0.03,
+        "target_kl": 0.03,
         "gn": 1.0,
         "freq": 2,
     },
@@ -58,7 +58,7 @@ hyperparameters = {
         "eval_freq": 50,
         "num_epochs": 2000,
         "lambda_min": 0,
-        "traget_kl": 0.06,
+        "target_kl": 0.06,
         "gn": 2.0,
         "freq": 2,
     },
@@ -70,7 +70,7 @@ hyperparameters = {
         "eval_freq": 50,
         "num_epochs": 2000,
         "lambda_min": 0,
-        "traget_kl": 0.03,
+        "target_kl": 0.03,
         "gn": 4.0,
         "freq": 2,
     },
@@ -82,7 +82,7 @@ hyperparameters = {
         "eval_freq": 50,
         "num_epochs": 2000,
         "lambda_min": 0,
-        "traget_kl": 0.03,
+        "target_kl": 0.03,
         "gn": 4.0,
         "freq": 2,
     },
@@ -94,7 +94,7 @@ hyperparameters = {
         "eval_freq": 50,
         "num_epochs": 2000,
         "lambda_min": 0,
-        "traget_kl": 0.04,
+        "target_kl": 0.04,
         "gn": 7.0,
         "freq": 2,
     },
@@ -106,7 +106,7 @@ hyperparameters = {
         "eval_freq": 50,
         "num_epochs": 2000,
         "lambda_min": 0,
-        "traget_kl": 0.03,
+        "target_kl": 0.03,
         "gn": 5.0,
         "freq": 2,
     },
@@ -118,7 +118,7 @@ hyperparameters = {
         "eval_freq": 50,
         "num_epochs": 2000,
         "lambda_min": 0,
-        "traget_kl": 0.04,
+        "target_kl": 0.04,
         "gn": 5.0,
         "freq": 2,
     },
@@ -130,7 +130,7 @@ hyperparameters = {
         "eval_freq": 50,
         "num_epochs": 1000,
         "lambda_min": 0.3,
-        "traget_kl": 0.2,
+        "target_kl": 0.2,
         "gn": 2.0,
         "freq": 2,
     },
@@ -142,7 +142,7 @@ hyperparameters = {
         "eval_freq": 50,
         "num_epochs": 1000,
         "lambda_min": 0.3,
-        "traget_kl": 0.09,
+        "target_kl": 0.09,
         "gn": 3.0,
         "freq": 2,
     },
@@ -154,7 +154,7 @@ hyperparameters = {
         "eval_freq": 50,
         "num_epochs": 1000,
         "lambda_min": 0.3,
-        "traget_kl": 0.3,
+        "target_kl": 0.3,
         "gn": 2.0,
         "freq": 2,
     },
@@ -166,7 +166,7 @@ hyperparameters = {
         "eval_freq": 50,
         "num_epochs": 1000,
         "lambda_min": 0.3,
-        "traget_kl": 0.2,
+        "target_kl": 0.2,
         "gn": 1.0,
         "freq": 2,
     },
@@ -178,7 +178,7 @@ hyperparameters = {
         "eval_freq": 50,
         "num_epochs": 1000,
         "lambda_min": 0.3,
-        "traget_kl": 0.2,
+        "target_kl": 0.2,
         "gn": 10.0,
         "freq": 4,
     },
@@ -190,7 +190,7 @@ hyperparameters = {
         "eval_freq": 50,
         "num_epochs": 1000,
         "lambda_min": 0.3,
-        "traget_kl": 0.2,
+        "target_kl": 0.2,
         "gn": 7.0,
         "freq": 4,
     },
@@ -360,7 +360,9 @@ if __name__ == "__main__":
 
     ### Algo Settings ###
     # parser.add_argument("--policy_freq", default=2, type=int)
-    parser.add_argument("--target_kl", default=0.06, type=float)
+    
+    # set yourself target_kl 
+    # parser.add_argument("--target_kl", default=0.06, type=float)
     parser.add_argument("--lambda_max", default=100, type=int)
     parser.add_argument("--lambda_min", default=0, type=float)
 
@@ -378,10 +380,9 @@ if __name__ == "__main__":
     args.gn = hyperparameters[args.env_name]["gn"]
     args.eval_freq = hyperparameters[args.env_name]["eval_freq"]
     
-    if args.lambda_min is None:
-        args.lambda_min = hyperparameters[args.env_name]["lambda_min"]
-    if args.target_kl is None:
-        args.target_kl = hyperparameters[args.env_name]["target_kl"]
+    # default kl, comment it when you set yourself kl parameters
+    args.lambda_min = hyperparameters[args.env_name]["lambda_min"]
+    args.target_kl = hyperparameters[args.env_name]["target_kl"]
 
     # Setup Logging
     file_name = f"{args.env_name}-T-{args.T}"
@@ -416,7 +417,7 @@ if __name__ == "__main__":
     utils.print_banner(
         f"Env: {args.env_name}, state_dim: {state_dim}, action_dim: {action_dim}"
     )
-    # thread = 8
-    # torch.set_num_threads(int(thread))
+    thread = 8
+    torch.set_num_threads(int(thread))
 
     train_agent(env, state_dim, action_dim, max_action, args.device, results_dir, args)
